@@ -1,0 +1,12 @@
+# Ignore training and test data
+data/Train.csv
+data/Test.csv
+
+# (Optional) ignore the entire data folder
+# data/
+
+# Ignore submission output
+submission.csv
+
+# Ignore virtual environment
+venv/
