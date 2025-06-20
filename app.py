@@ -78,3 +78,34 @@ ax.barh(features, importances, color='skyblue')
 ax.set_xlabel("Importance Score")
 ax.set_title("Feature Importance from Random Forest Model")
 st.pyplot(fig)
+
+
+
+
+#=============New Graph=======================================================================================#
+
+# === Compare Item Type and Outlet Sales ===
+st.markdown("---")
+st.subheader("📊 Compare Item Type & Outlet Sales")
+
+# Load original training data (assuming it's in 'data/Train.csv')
+train_df = pd.read_csv("data/Train.csv")
+
+# Combine 'Item_Identifier' prefix to get Item Type
+train_df['Item_Type_Combined'] = train_df['Item_Identifier'].apply(lambda x: x[:2])
+train_df['Item_Type_Combined'] = train_df['Item_Type_Combined'].map({
+    'FD': 'Food', 'NC': 'Non-Consumable', 'DR': 'Drinks'
+})
+
+# Group and compute mean sales
+avg_sales = train_df.groupby(['Item_Type_Combined', 'Outlet_Identifier'])['Item_Outlet_Sales'].mean().unstack()
+
+# Plotting
+fig2, ax2 = plt.subplots(figsize=(10, 6))
+avg_sales.T.plot(kind='bar', ax=ax2)
+ax2.set_ylabel("Average Sales")
+ax2.set_xlabel("Outlet Identifier")
+ax2.set_title("Average Sales by Item Type and Outlet")
+ax2.legend(title="Item Type")
+plt.xticks(rotation=45)
+st.pyplot(fig2)
